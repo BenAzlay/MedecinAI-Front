@@ -1,78 +1,73 @@
 import axios from 'axios';
+/*
+const auth = {
+  headers: {"Authorization" : `Bearer ${token64}`}
+}
+*/
 const qs = require('querystring') //for FROM URLENCODED
-const API_URL = 'http://localhost:8080/XML-App/rest';
+const API_URL = 'https://localhost:44314/api';
+
 export class APIService{
 
   constructor(){
   }
-  /***************USERS */
-  getUsers() {
-    const url = `${API_URL}/user`;
-    return axios.get(url).then(response => response.data);
+
+  /***************TOKEN */
+  loginPractitioner(user){
+    const url = `${API_URL}/Token/Practitioner?pseudo=${user.pseudo}&pwd=${user.pwd}`; //?pseudo=Perturbat0r&pwd=Funes pseudo=Machiavel&pwd=sun-tzu-ftw
+    return axios.post(url);
   }
 
-  getUser(id) {
-    const url = `${API_URL}/user/${id}`;
-    return axios.get(url).then(response => response.data);
+  loginPatient(user){
+    const url = `${API_URL}/Token/Patient?pseudo=${user.pseudo}&pwd=${user.pwd}`;
+    return axios.post(url);
   }
 
-  loginUser(username, password) {
-    const url = `${API_URL}/user/${username}/${password}`;
-    return axios.get(url).then(response => response.data);
-  }
-  
-  createUser(user){
-    const url = `${API_URL}/user`;
-    return axios.post(url,qs.stringify(user));
-  }
-
-/***************MEDIA */
-getMedias() {
-  const url = `${API_URL}/media`;
-  return axios.get(url).then(response => response.data);
+/***************PATIENTS */
+getPatients(token64) {
+  const url = `${API_URL}/patients`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
 }
 
-searchMedia(keyword) {
-  const url = `${API_URL}/search/${keyword}`;
-  return axios.get(url).then(response => response.data);
+getPatient(id, token64) {
+  const url = `${API_URL}/patients/${id}`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
 }
 
-getMedia(id) {
-  const url = `${API_URL}/media/${id}`;
-  return axios.get(url).then(response => response.data);
-}
-
-createMedia(media){
-  const url = `${API_URL}/media`;
-  return axios.post(url,qs.stringify(media));
-}
-
-deleteMedia(media){
-  const url = `${API_URL}/media/${media.id}`;
-  return axios.delete(url);
+postPatient(user){
+  const url = `${API_URL}/patients`;
+  return axios.post(url,qs.stringify(user));
 }
 
 
-
-/***************COMMENT */
-getComments() {
-  const url = `${API_URL}/comment`;
-  return axios.get(url).then(response => response.data);
+/***************PRACTITIONER */
+getPractitioners(token64) {
+  const url = `${API_URL}/practitioners`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
 }
 
-getCommentsByMedia(id) {
-  const url = `${API_URL}/media/${id}/comment`;
-  return axios.get(url).then(response => response.data);
+getPractitioner(id, token64) {
+  const url = `${API_URL}/practitioners/${id}`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
 }
 
-getComment(id) {
-  const url = `${API_URL}/comment/${id}`;
-  return axios.get(url).then(response => response.data);
+postPractitioners(user){
+  const url = `${API_URL}/practitioners`;
+  return axios.post(url,qs.stringify(user));
 }
 
-createComment(comment){
-  const url = `${API_URL}/comment`;
-  return axios.post(url,qs.stringify(comment));
+/********************POST ***************/
+postFile(formData){
+  const url = `${API_URL}/upload`;
+  return axios.post(url, formData);
 }
 
 }

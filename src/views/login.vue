@@ -1,19 +1,24 @@
 <template>
   <div id="login">
-    <h1>Login</h1>
-    <input
-      type="text"
-      name="username"
-      v-model="input.username"
-      placeholder="Username"
-    />
-    <input
-      type="password"
-      name="password"
-      v-model="input.password"
-      placeholder="Password"
-    />
-    <button type="button" v-on:click="login()">Login</button><br/>
+    <form class="login" @submit.prevent="login">
+     <h1>Sign in</h1>
+     <label>Username </label>
+     <input required v-model="user.pseudo" type="text" placeholder="Username"/><br>
+     <label>Password </label>
+     <input required v-model="user.pwd" type="password" placeholder="Password"/>
+     <b-form-checkbox
+      id="checkbox-1"
+      v-model="isPatient"
+      name="checkbox-1"
+      value= true
+      unchecked-value= false
+    >
+      I am a patient
+    </b-form-checkbox>
+     <hr/>
+     <button type="submit">Login</button>
+   </form>
+    <br/>
     <p>Don't have an account yet? <router-link to="/sign-up">Sign Up</router-link></p>
   </div>
   
@@ -21,48 +26,50 @@
 
 <script>
 import { APIService } from "../APIService";
-
+import VueJwtDecode from 'vue-jwt-decode'
 const apiService = new APIService();
+
 export default {
   name: "Login",
   data() {
     return {
-      input: {
-        username: "",
-        password: ""
-      },
-      user: null
+      user: {
+        pseudo: "",
+        pwd: ""
+      }, //Can be a patient or a practionner
+      
+      isPatient: false
     };
   },
   methods: {
-    login() {
-      if (this.input.username != "" && this.input.password != "") { //IF credentials are entered
-        apiService.loginUser(this.input.username, this.input.password).then(data => {
-          this.user = data;
-          if(this.user.username == this.input.username
-          && this.user.password == this.input.password){
-          
-            this.$emit("authenticated", true);
-            this.$parent.currentUser = this.user;
+    login(){
+      if (this.user.Pseudo != "" && this.user.pwd != "") { //IF credentials are entered
+        if(this.isPatient)
+        {
+          apiService.loginPatient(this.user).then(token => { 
+            //DECODAGE
+            this.$parent.token = VueJwtDecode.decode(token.data.token);
             this.$router.replace({ name: "home" }); 
-          }
-          else console.log("The username and / or password is incorrect");
-        });
-        
-
+          });
+        }
+        else{
+          apiService.loginPractitioner(this.user).then(token => { 
+            //DECODAGE
+            
+            this.$parent.token64 = token.data.token;
+            this.$parent.token = VueJwtDecode.decode(token.data.token);
+            this.$router.replace({ name: "home" }); 
+          });
+        }
       } else console.log("A username and password must be present");
-    },
-    getUser(username, password) {
-      apiService.loginUser(username, password).then(data => {
-        this.user = data;
-      });
-      console.log("User fetched with " + username + password);
     }
   },
   mounted() {
-
+    
   }
 };
+
+
 </script>
 
 <style scoped>
@@ -71,7 +78,7 @@ export default {
   border: 1px solid #cccccc;
   background-color: #ffffff;
   margin: auto;
-  margin-top: 200px;
+  margin-top: 50px;
   padding: 20px;
 }
 </style>

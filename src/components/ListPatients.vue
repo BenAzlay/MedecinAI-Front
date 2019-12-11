@@ -4,15 +4,15 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Username</th>
-          <th>Password</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" v-bind:key="user.id">
-          <th>{{ user.id }}</th>
-          <th>{{ user.username }}</th>
-          <th>{{ user.password }}</th>
+        <tr v-for="patient in patients" v-bind:key="patient.id">
+          <th>{{ patient.id }}</th>
+          <th>{{ patient.firstname }}</th>
+          <th>{{ patient.lastname }}</th>
         </tr>
       </tbody>
     </table>
@@ -26,23 +26,23 @@ import { APIService } from "../APIService";
 const apiService = new APIService();
 
 export default {
-  name: "listUsers",
+  name: "listPatients",
   data() {
     return {
-      users: []
+      patients: []
     };
   },
 
   methods: {
-    getUsers() {
-      apiService.getUsers().then(data => {
-        this.users = data;
+    getPatients() {
+      apiService.getPatients(this.$parent.token64).then(data => {
+        this.patients = data;
       });
     }
   },
 
   mounted() {
-    this.getUsers();
+    this.getPatients();
   }
 };
 </script>

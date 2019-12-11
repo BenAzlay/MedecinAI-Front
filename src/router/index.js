@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import ListUsers from '@/components/ListUsers'
-import ListMedia from '@/components/ListMedia'
-import PostMedia from '@/components/PostMedia'
+import ListPatients from '@/components/ListPatients'
+import PostDiagnosis from '@/components/PostDiagnosis'
 import SignUp from '@/components/SignUp'
 import LoginComponent from "@/views/login.vue"
 import Search from "@/components/Search"
+import Results from "@/components/Results"
 
 Vue.use(Router)
 
@@ -18,19 +18,14 @@ export default new Router({
       component: Home    
     },    
     {      
-      path: '/list-users',
-      name: "list-users",            
-      component: ListUsers
+      path: '/list-patients',
+      name: "list-patients",            
+      component: ListPatients
     },
     {      
-      path: '/list-media',
-      name: "list-media",            
-      component: ListMedia
-    },
-    {      
-      path: '/post-media',
-      name: "post-media",            
-      component: PostMedia
+      path: '/post-diagnosis',
+      name: "post-diagnosis",            
+      component: PostDiagnosis
     },
     {
         path: "/login",
@@ -46,6 +41,11 @@ export default new Router({
       path: "/search",
       name: "search",
       component: Search
+    },
+    {
+      path: "/results",
+      name: "results",
+      component: Results
     },
   ]
 })
