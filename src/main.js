@@ -9,6 +9,13 @@ import router from './router/index'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
+import { Datetime } from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
+ 
+Vue.use(Datetime)
+Vue.component('datetime', Datetime);
+
 Vue.use(Autocomplete)
 
 Vue.use(BootstrapVue)

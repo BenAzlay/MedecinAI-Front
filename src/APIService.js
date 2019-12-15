@@ -64,10 +64,37 @@ postPractitioners(user){
   return axios.post(url,qs.stringify(user));
 }
 
-/********************POST ***************/
-postFile(formData){
-  const url = `${API_URL}/upload`;
-  return axios.post(url, formData);
+/********************MRI ***************/
+postMRI(mri, token64){
+  const url = `${API_URL}/mris`;
+
+  console.log(mri);
+  return axios.post(url, mri, {
+    headers: {
+      "Content-Type" : 'application/json',
+      "Authorization" : `Bearer ${token64}`
+     
+    }
+  }).then(response => { 
+    console.log(response)
+  })
+  .catch(error => {
+      console.log(error.response)
+  });
+}
+
+getMRIs(token64) {
+  const url = `${API_URL}/mris`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
+}
+
+getMRI(id, token64) {
+  const url = `${API_URL}/mris/${id}`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
 }
 
 }

@@ -1,8 +1,23 @@
 <template>
   <div>
-      <h2>After an in-depth analysis, our cutting-edge AI has generated the following diagnosis:</h2>
-      <br/>
-      <img src="@/images/dead.jpg">
+      <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Patient</th>
+          <th>Realized</th>
+          <th>Image Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="mri in mris" v-bind:key="mri.id">
+          <th>{{ mri.id }}</th>
+          <th>{{ mri.patient }}</th>
+          <th>{{ mri.realized }}</th>
+          <th>{{ mri.imgpath }}</th>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -12,23 +27,23 @@ import { APIService } from "../APIService";
 const apiService = new APIService();
 
 export default {
-  name: "listUsers",
+  name: "results",
   data() {
     return {
-      users: []
+      mris: []
     };
   },
 
   methods: {
-    getUsers() {
-      apiService.getUsers().then(data => {
-        this.users = data;
+    getMRIs() {
+      apiService.getMRIs(this.$parent.token64).then(data => {
+        this.mris = data;
       });
     }
   },
 
   mounted() {
-    this.getUsers();
+    this.getMRIs();
   }
 };
 </script>
