@@ -11,16 +11,19 @@
         <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
             <b-nav-item :to="{ name: 'home' }">Home</b-nav-item>
-            <b-nav-item :to="{ name: 'list-patients' }">Patients Database</b-nav-item>
+            <b-nav-item :to="{ name: 'list-patients' }">Patient Database</b-nav-item>
+            <b-nav-item :to="{ name: 'list-mri' }">MRI Database</b-nav-item>
             <b-nav-item :to="{ name: 'post-diagnosis' }">New diagnosis</b-nav-item>
             <b-nav-item :to="{ name: 'results' }">Results</b-nav-item>
-            
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-            <b-nav-item :to="{ name: 'login' }">
-            Logout
+            <b-nav-item :to="{ name: 'login' }" v-if="authenticated" @click="logout">
+            Log Out
+            </b-nav-item>
+            <b-nav-item :to="{ name: 'login' }" v-if="!authenticated">
+            Log In
             </b-nav-item>
             <b-nav-form>
                 <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
@@ -46,7 +49,6 @@ export default {
       token: [],
       token64: '',
       authenticated: false,
-      isPractitioner: true,
       currentUserId: 0
     };
   },
@@ -61,6 +63,8 @@ export default {
       },
       logout() {
           this.authenticated = false;
+          this.token = [];
+          this.token64 = '';
       }
   }
 };

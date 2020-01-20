@@ -6,7 +6,7 @@
       Benjamin AZOULAY <br/>
       Sebastien BERNARD <br/>
       Anil DEVADAS <br/>
-      Maximilien FRAT-LEPRINCE <br/>
+      Maximilien FRAT LEPRINCE <br/>
       Mélanie MARQUES <br/>
       Kevin NAGELS <br/>
       Louis PRUD'HOMME <br/>

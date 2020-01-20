@@ -1,17 +1,19 @@
 <template>
   <div>
-      <input type="number" v-model="mriId" placeholder="Select patient ID" @change="getSlices"/><br>
+      <input type="number" v-model="patientId" placeholder="Select patient ID" @change="getMRIs"/><br>
       <table class="table table-bordered table-hover">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Probability</th>
+          <th>Realized</th>
+          <th>Image Path</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="slice in slices" v-bind:key="slice.id">
-          <th>{{ slice.id }}</th>
-          <th>{{ slice.probability }}</th>
+        <tr v-for="mri in mris" v-bind:key="mri.id">
+          <th>{{ mri.id }}</th>
+          <th>{{ mri.realized }}</th>
+          <th>{{ mri.imgpath }}</th>
         </tr>
       </tbody>
     </table>
@@ -27,8 +29,9 @@ export default {
   name: "results",
   data() {
     return {
-      mriId: null,
-      slices: [],
+      patientId: null,
+      mris: [],
+      patients: [],
       options: [
           { value: null, text: 'Please select an option' },
         ]
@@ -36,10 +39,10 @@ export default {
   },
 
   methods: {
-    getSlices() {
-      if(this.mriId > 0){
-        apiService.getMRISlices(this.mriId, this.$parent.token64).then(data => {
-          this.slices = data;
+    getMRIs() {
+      if(this.patientId > 0){
+        apiService.getPatientMRIs(this.patientId, this.$parent.token64).then(data => {
+          this.mris = data;
         });
       }
 

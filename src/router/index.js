@@ -5,7 +5,7 @@ import ListPatients from '@/components/ListPatients'
 import PostDiagnosis from '@/components/PostDiagnosis'
 import SignUp from '@/components/SignUp'
 import LoginComponent from "@/views/login.vue"
-import Search from "@/components/Search"
+import ListMRIs from "@/components/listMRIs"
 import Results from "@/components/Results"
 
 Vue.use(Router)
@@ -38,9 +38,9 @@ export default new Router({
       component: SignUp
     },
     {
-      path: "/search",
-      name: "search",
-      component: Search
+      path: "/list-mri",
+      name: "list-mri",
+      component: ListMRIs
     },
     {
       path: "/results",

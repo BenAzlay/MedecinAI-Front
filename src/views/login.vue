@@ -16,6 +16,7 @@
       I am a patient
     </b-form-checkbox>
      <hr/>
+     <p style="color:red;">{{errorMessage}}</p>
      <button type="submit">Login</button>
    </form>
     <br/>
@@ -37,7 +38,7 @@ export default {
         pseudo: "",
         pwd: ""
       }, //Can be a patient or a practionner
-      
+      errorMessage: "",
       isPatient: false
     };
   },
@@ -48,6 +49,7 @@ export default {
         {
           apiService.loginPatient(this.user).then(token => { 
             //DECODAGE
+            this.$emit("authenticated", true);
             this.$parent.token = VueJwtDecode.decode(token.data.token);
             this.$router.replace({ name: "home" }); 
           });
@@ -55,13 +57,18 @@ export default {
         else{
           apiService.loginPractitioner(this.user).then(token => { 
             //DECODAGE
-            
+            this.$emit("authenticated", true);
             this.$parent.token64 = token.data.token;
             this.$parent.token = VueJwtDecode.decode(token.data.token);
             this.$router.replace({ name: "home" }); 
           });
         }
       } else console.log("A username and password must be present");
+      
+      Promise(resolve => setTimeout(resolve, 100)); //Sleep 100 ms
+      this.errorMessage = "Wrong username or password";
+
+
     }
   },
   mounted() {

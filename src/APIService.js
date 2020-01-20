@@ -7,6 +7,7 @@ const auth = {
 const qs = require('querystring') //for FROM URLENCODED
 const API_URL = 'https://localhost:44314/api';
 
+
 export class APIService{
 
   constructor(){
@@ -84,7 +85,14 @@ postMRI(mri, token64){
 }
 
 getMRIs(token64) {
-  const url = `${API_URL}/mris`;
+  const url = `${API_URL}/patients/1/mris`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
+}
+
+getPatientMRIs(id, token64) {
+  const url = `${API_URL}/patients/${id}/mris`;
   return axios.get(url, {
     headers: {"Authorization" : `Bearer ${token64}`}
   }).then(response => response.data);
@@ -92,6 +100,14 @@ getMRIs(token64) {
 
 getMRI(id, token64) {
   const url = `${API_URL}/mris/${id}`;
+  return axios.get(url, {
+    headers: {"Authorization" : `Bearer ${token64}`}
+  }).then(response => response.data);
+}
+
+/*****************SLICES**********************/
+getMRISlices(id, token64) {
+  const url = `${API_URL}/mris/${id}/mrislices`;
   return axios.get(url, {
     headers: {"Authorization" : `Bearer ${token64}`}
   }).then(response => response.data);
