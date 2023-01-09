@@ -17,7 +17,7 @@
     "es6-promise": "^4.2.8",
     "fs": "0.0.1-security",
     "lodash": "^4.17.15",
-    "luxon": "^1.21.3",
+    "luxon": "^1.28.1",
     "vue": "^2.6.10",
     "vue-base64-file-upload": "^1.0.4",
     "vue-base64-upload": "^1.0.1",
